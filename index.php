@@ -218,30 +218,41 @@ include "koneksi.php";
   </section>
   <!--schedule end-->
   <!--gallery begin-->
-  <section id="gallery" class="text-center p-5 bg-danger-subtle">
-    <div class="container">
-      <h1 class="fw-bold display-4 pb-3">Gallery</h1>
-      <div id="carouselExample" class="carousel slide">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="img/tabebuya.jpg" class="d-block w-100" alt="tabebuya">
+  <!--gallery begin-->
+<section id="gallery" class="text-center p-5 bg-danger-subtle">
+  <div class="container">
+    <h1 class="fw-bold display-4 pb-3">Gallery</h1>
+    <div id="carouselExample" class="carousel slide">
+    <div class="carousel-inner">
+      <?php
+      $sqlGallery = "SELECT * FROM gallery";
+      $resultGallery = $conn->query($sqlGallery);
+      $isActive = true;
+
+      if ($resultGallery->num_rows > 0) {
+        while ($rowGallery = $resultGallery->fetch_assoc()) {
+          $gambar = isset($rowGallery['gambar']) ? $rowGallery['gambar'] : 'default.jpg'; // Gambar default jika tidak ada
+      ?>
+          <div class="carousel-item <?php if ($isActive) { echo 'active'; $isActive = false; } ?>">
+            <img src="img/<?= $gambar; ?>" class="d-block w-100" alt="Gallery Image">
           </div>
-          <div class="carousel-item">
-            <img src="img/tempo.jpg" class="d-block w-100" alt="tempo">
-          </div>
-          <div class="carousel-item">
-            <img src="img/nad2.jpg" class="d-block w-100" alt="memories">
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        </button>
-      </div>
+      <?php
+        }
+      } else {
+        echo '<div class="carousel-item active"><p class="text-center">No images available.</p></div>';
+      }
+      ?>
     </div>
-  </section>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</section>
   <!--gallery end-->
   <!--about me begin-->
   <section id="about" class="text-center p-5" style="background-color: #87CEFA;">
